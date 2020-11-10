@@ -6,6 +6,7 @@ import spark.Request;
 import spark.Response;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class DashboardController {
     private final CommandSystem commandSystem;
@@ -15,6 +16,8 @@ public class DashboardController {
     }
 
     public String detail(Request request, Response response){
-        return Template.render("home.html", new HashMap<>());
+        Map<String,Object> model = new HashMap<>();
+        model.put("commands",commandSystem.getCommands());
+        return Template.render("dashboard.html", model);
     }
 }

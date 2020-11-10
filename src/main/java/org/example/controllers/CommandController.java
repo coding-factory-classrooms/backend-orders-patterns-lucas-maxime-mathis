@@ -15,6 +15,6 @@ public class CommandController {
     }
 
     public String detail(Request request, Response response){
-        return Template.render("home.html", new HashMap<>());
+        return Template.render("command.html", new HashMap<>());
     }
 }

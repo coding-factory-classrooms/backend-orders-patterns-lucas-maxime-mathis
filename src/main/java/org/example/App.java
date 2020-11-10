@@ -5,6 +5,7 @@ import org.example.controllers.DashboardController;
 import org.example.core.Conf;
 import org.example.core.Template;
 import org.example.middlewares.LoggerMiddleware;
+import org.example.models.Command;
 import org.example.models.CommandSystem;
 import spark.Spark;
 
@@ -15,6 +16,8 @@ public class App {
         initialize();
 
         CommandSystem commandSystem = new CommandSystem();
+
+        commandSystem.addCommand(new Command());
 
         DashboardController dashboardController = new DashboardController(commandSystem);
         CommandController commandController = new CommandController(commandSystem);

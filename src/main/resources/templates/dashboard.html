@@ -1,0 +1,22 @@
+#parse("base.html")
+#@mainLayout()
+<h1>Dashboard</h1>
+<table>
+    <thead>
+    <tr>
+        <td>Id</td>
+        <td>State</td>
+        <td>createTime</td>
+    </tr>
+    </thead>
+    <tbody>
+    #foreach ($command in $commands)
+    <tr>
+        <td>$velocityCount</td>
+        <td>$command.getState()</td>
+        <td>$command.getCreateTime()</td>
+    </tr>
+    </tbody>
+    #end
+</table>
+#end
