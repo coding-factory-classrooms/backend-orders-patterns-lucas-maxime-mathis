@@ -1,8 +1,11 @@
 package org.example;
 
+import org.example.controllers.CommandController;
+import org.example.controllers.DashboardController;
 import org.example.core.Conf;
 import org.example.core.Template;
 import org.example.middlewares.LoggerMiddleware;
+import org.example.models.CommandSystem;
 import spark.Spark;
 
 import java.util.HashMap;
@@ -11,9 +14,13 @@ public class App {
     public static void main(String[] args) {
         initialize();
 
-        Spark.get("/", (req, res) -> {
-            return Template.render("home.html", new HashMap<>());
-        });
+        CommandSystem commandSystem = new CommandSystem();
+
+        DashboardController dashboardController = new DashboardController(commandSystem);
+        CommandController commandController = new CommandController(commandSystem);
+
+        Spark.get("/", dashboardController::detail);
+        Spark.get("/commands/:id", commandController::detail);
     }
 
     static void initialize() {
