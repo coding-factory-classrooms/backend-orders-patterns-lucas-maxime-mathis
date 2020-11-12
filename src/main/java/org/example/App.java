@@ -24,6 +24,8 @@ public class App {
 
         Spark.get("/", dashboardController::detail);
         Spark.get("/commands/:id", commandController::detail);
+
+        Spark.post("/commands/:id", commandController::changeCommandState);
     }
 
     static void initialize() {
