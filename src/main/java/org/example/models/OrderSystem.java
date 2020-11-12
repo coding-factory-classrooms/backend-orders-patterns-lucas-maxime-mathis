@@ -18,7 +18,7 @@ public class OrderSystem {
     public List<Order> getOrders() {
         return orders;
     }
-    public Optional<Order> getOrdersById(int id) {
+    public Optional<Order> getOrderById(int id) {
         return orders.stream()
                 .filter(command -> command.getId() == id)
                 .findFirst();
@@ -30,7 +30,7 @@ public class OrderSystem {
             return false;
         }
         order.setId(getNextId());
-        this.order.add(order);
+        this.orders.add(order);
         String message = "Added new order id : "+ order.getId();
         log.addLog(message);
         return true;
