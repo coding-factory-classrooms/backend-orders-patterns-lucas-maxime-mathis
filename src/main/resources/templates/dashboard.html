@@ -7,14 +7,16 @@
         <td>Id</td>
         <td>State</td>
         <td>createTime</td>
+        <td>Organs</td>
     </tr>
     </thead>
     <tbody>
     #foreach ($command in $commands)
     <tr>
-        <td>$velocityCount</td>
+        <td>$command.getId()</td>
         <td>$command.getState()</td>
         <td>$command.getCreateTime()</td>
+        <td>$command.getOrgans().size()</td>
     </tr>
     </tbody>
     #end
