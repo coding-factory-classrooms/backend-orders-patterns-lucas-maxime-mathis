@@ -1,15 +1,17 @@
 #parse("base.html")
 #@mainLayout()
+<div class="bar-h">
 <h1>Dashboard</h1>
-<a href="/new_order">New order</a>
-<table>
+<a class="buttonBig" href="/new_order">New order<i class="fas fa-cart-plus" style="margin-left: 10px"></i></a>
+</div>
+<table id="odrer-table">
     <thead>
     <tr>
-        <td>Id</td>
-        <td>State</td>
-        <td>createTime</td>
-        <td>Organs</td>
-        <td>Action</td>
+        <th>Id</th>
+        <th>State</th>
+        <th>createTime</th>
+        <th>Organs</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -28,15 +30,17 @@
     </tbody>
     #end
 </table>
-<a href="?action=undo">Undo</a>
-<a href="?action=redo">Redo</a>
+<div class="button-row">
+<a class="buttonSmall" href="?action=undo"><i class="fas fa-undo" style="margin-right: 10px"></i>Undo</a>
+<a class="buttonSmall" href="?action=redo">Redo<i class="fas fa-redo" style="margin-left: 10px"></i></a>
+</div>
 <h2>History</h2>
 <table>
     <thead>
     <tr>
-        <td>Id</td>
-        <td>CreateTime</td>
-        <td>Info</td>
+        <th>Id</th>
+        <th>CreateTime</th>
+        <th>Info</th>
     </tr>
     </thead>
     <tbody>

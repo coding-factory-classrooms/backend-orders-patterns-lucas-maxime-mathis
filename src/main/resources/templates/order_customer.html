@@ -1,6 +1,9 @@
 #parse("base.html")
 #@mainLayout()
+<div class="bar-h">
 <h1>Order #$order.getId() Customer</h1>
+<a class="buttonSmall" href="/"><i style="margin-right: 10px;" class="fas fa-chevron-circle-left"></i> Go to Dashboard</a>
+</div>
 <h2>Status</h2>
 <p>State : $order.getState()</p>
 <p>Creation date : $order.getCreateTime()</p>

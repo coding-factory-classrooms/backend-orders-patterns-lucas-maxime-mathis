@@ -1,45 +1,129 @@
 #parse("base.html")
 #@mainLayout()
+
 <style>
-#list-creation-items > div{
-    border: solid;
-    padding: 14px;
+
+    #list-creation-items{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    #list-creation-items > div{
+        border: solid white;
+        width: 300px;
+        background: #f4f4f4;
+        padding: 35px;
+    }
+
+    .add-item{
+        border: solid white;
+        width: 300px;
+        background: #f4f4f4;
+        padding: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        order: 999;
+    }
+
+    label{
+        font-weight: 600;
+    }
+
+    .formfield-select {
+        position: relative;
+    }
+
+    .formfield-select--container {
+        position: relative;
+        background-color: #fff;
+        border: #777 1px solid;
+        margin: 0 0 1.5em 0;
+        overflow: hidden;
+    }
+
+    .formfield-select--container select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        width: 110%;
+        height: auto;
+        border: 0;
+        margin: 0;
+        padding: .75em;
+        border-radius: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+.formfield-select--container::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    margin-top: -3px;
+    right: .75em;
+    display: block;
+    width: 0; height: 0;
+    border-color: transparent;
+    border-top-color: #444;
+    border-width: 6px;
+    border-style: solid;
+    pointer-events: none;
 }
 </style>
-<h1>Create new order</h1>
-<p>Ordre your brand new organ today !</p>
-
-<div id="list-creation-items">
-    <div id="item-1">
-        <p>Organ :</p>
-        <select id="organlist-1">
-            <option value="none">--Please choose an option--</option>
-            <option value="Lungs">Lungs</option>
-            <option value="Foot">Foot</option>
-        </select><br>
-
-        <p>Condition :</p>
-        <select id="condition-1">
-            <option value="none">--Please choose an option--</option>
-            <option value="BRAND_NEW">Brand New</option>
-            <option value="GOOD">Good</option>
-            <option value="CORRECT">Correct</option>
-            <option value="UNHEALTHY">Unhealthy</option>
-        </select><br>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/regular.min.css" integrity="sha512-rVrbAp27ffQyFnzJ/aC5fZv9JgvL6cdB4zsL5HmM+DhJdzThc/F//62SJF+CaGiOZTP35e1p8JGcc+zRRVuhRw==" crossorigin="anonymous" />
+    <div class="bar-h">
+        <h1>Create new order</h1>
+        <a class="buttonBig" onclick="sendData()">Checkout</a>
     </div>
-</div>
-<button onclick="addNewItem()">Add new item</button>
+
+    <p>Ordre your brand new organ today !</p>
+
+    <div id="list-creation-items">
+        <div id="item-1">
+            <div class="formfield-select">
+                <label for="organlist-1" >Select the organ</label>
+                <div class="formfield-select--container">
+                    <select id="organlist-1">
+                        <option value="none">--Please choose an option--</option>
+                        <option value="Lungs">Lungs</option>
+                        <option value="Foot">Foot</option>
+                    </select>
+                    <br>
+                </div>
+            </div>
+
+            <div class="formfield-select">
+                <label for="organlist-1" >Select the condition</label>
+                <div class="formfield-select--container">
+                <select id="condition-1">
+                    <option value="none">--Please choose an option--</option>
+                    <option value="BRAND_NEW">Brand New</option>
+                    <option value="GOOD">Good</option>
+                    <option value="CORRECT">Correct</option>
+                    <option value="UNHEALTHY">Unhealthy</option>
+                </select><br>
+                </div>
+            </div>
+        </div>
+
+        <span onclick="addNewItem()" class="add-item">
+            <p>Add a new item <i class="fas fa-plus-circle"></i> </p>
+        </span>
+
+    </div>
 
 
-<button onclick="sendData()">checkout</button>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 <script>
 
-    let cart = {
-        organs : []
-    }
+    let cart = {organs : []}
 
     function getData(){
+        cart = {organs : []}
         $('#list-creation-items').children('div').each(function () {
             let splitId = ($(this).attr('id')).split('-');
             let id = splitId[1];
@@ -53,11 +137,12 @@
 
     function addNewItem() {
         let id = ($("#list-creation-items > div").length) + 1;
-        let blockToAppend = '<div id="item-'+id+'"> <p>Organ :</p> <select id="organlist-'+id+'"> <option value="none">--Please choose an option--</option> <option value="Lungs">Lungs</option> <option value="Foot">Foot</option> </select><br> <p>Condition :</p> <select id="condition-'+id+'"> <option value="none">--Please choose an option--</option> <option value="BRAND_NEW">Brand New</option> <option value="GOOD">Good</option> <option value="CORRECT">Correct</option> <option value="UNHEALTHY">Unhealthy</option> </select><br> </div>';
+        let blockToAppend = '<div id="item-'+id+'"> <div class="formfield-select"> <label for="organlist-'+id+'" >Select the organ</label> <div class="formfield-select--container"> <select id="organlist-'+id+'"> <option value="none">--Please choose an option--</option> <option value="Lungs">Lungs</option> <option value="Foot">Foot</option> </select> <br> </div> </div> <div class="formfield-select"> <label for="organlist-'+id+'" >Select the condition</label> <div class="formfield-select--container"> <select id="condition-'+id+'"> <option value="none">--Please choose an option--</option> <option value="BRAND_NEW">Brand New</option> <option value="GOOD">Good</option> <option value="CORRECT">Correct</option> <option value="UNHEALTHY">Unhealthy</option> </select><br> </div> </div> </div>';
         $("#list-creation-items").append(blockToAppend);
     }
 
     function sendData() {
+        cart = {organs : []}
         let dataToSend = JSON.stringify(getData());
         $.post('/placeOrder',
             dataToSend,

@@ -119,7 +119,7 @@ public class OrderController {
                 Foot foot = new Foot();
                 foot.setCondition(Organ.Condition.valueOf(conditions.get(i)));
                 order.addOrgan(foot);
-            }else if(organStr.equals("Lung")){
+            }else if(organStr.equals("Lungs")){
                 Lung lung = new Lung();
                 lung.setCondition(Organ.Condition.valueOf(conditions.get(i)));
                 order.addOrgan(lung);
