@@ -12,6 +12,7 @@ public class OrderSystemTest {
 
     @Before
     public void before() {
+        logSystem = new LogSystem();
         orderSystem = new OrderSystem(logSystem);
     }
 
