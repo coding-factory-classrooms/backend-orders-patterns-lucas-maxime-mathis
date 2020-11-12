@@ -15,6 +15,7 @@ public class App {
         LogSystem log = new LogSystem();
         OrderSystem orderSystem = new OrderSystem(log);
         TimeMachine timeMachine = new TimeMachine(orderSystem);
+        timeMachine.makeBackup();
 
         Order order = new Order();
         Lung lung = new Lung();

@@ -41,7 +41,7 @@
     </thead>
     <tbody>
     #foreach ($snapshot in $history)
-        <tr>
+        <tr #if ($historyCurrentId == $velocityCount) style="font-weight: bold" #end>
             <td>$velocityCount</td>
             <td>$snapshot.getCreateTime()</td>
             <td>

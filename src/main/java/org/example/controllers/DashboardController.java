@@ -30,7 +30,7 @@ public class DashboardController {
         Map<String,Object> model = new HashMap<>();
         model.put("orders", orderSystem.getOrders());
         model.put("history", timeMachine.getSnapshots());
-        model.put("historyCurrentId", timeMachine.getIndex());
+        model.put("historyCurrentId", timeMachine.getIndex() + 1);
         return Template.render("dashboard.html", model);
     }
 }

@@ -27,7 +27,6 @@ public class TimeMachineTest {
         timeMachine.makeBackup();
         Assert.assertEquals(1,timeMachine.getSnapshots().size());
         Assert.assertEquals(0,timeMachine.getIndex());
-        Assert.assertNotNull(timeMachine.getSnapshots().get(timeMachine.getIndex()));
     }
 
     @Test
@@ -41,20 +40,21 @@ public class TimeMachineTest {
 
     @Test
     public void UndoNotInRangeFail(){
-        timeMachine.makeBackup();
-        Assert.assertEquals(0,timeMachine.getIndex());
+        Order order = new Order();
+        orderSystem.addOrder(order);
         Assert.assertFalse(timeMachine.undo());
     }
 
     @Test
     public void UndoSuccess(){
+
         timeMachine.makeBackup();
 
         Order order = new Order();
         order.addOrgan(new Foot());
         orderSystem.addOrder(order);
 
-        timeMachine.makeBackup();
+
         Assert.assertTrue(timeMachine.undo());
 
         Assert.assertEquals(0, orderSystem.getOrders().size());
@@ -84,6 +84,11 @@ public class TimeMachineTest {
         orderSystem.addOrder(order);
 
         Assert.assertFalse(timeMachine.redo());
+    }
+
+    @Test
+    public void UndoIfNoBackUpFail(){
+        Assert.assertFalse(timeMachine.undo());
     }
 
 }
