@@ -6,7 +6,9 @@ import org.example.models.OrderSystem;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
+import java.sql.Time;
 import java.util.List;
 
 public class TimeMachineTest {
@@ -106,6 +108,30 @@ public class TimeMachineTest {
         Assert.assertEquals(1,timeMachine.getSnapshots().size());
         orderSystem.addOrder(order);
         Assert.assertEquals(2,timeMachine.getSnapshots().size());
+    }
+
+    @Test
+    public void UpdateCommandShouldTriggerListener() {
+        Order.OnOrderStateChange onOrderStateChange = Mockito.mock(Order.OnOrderStateChange.class);
+
+        Order order = new Order();
+        orderSystem.addOrder(order);
+        order.addOnOrderStateChangeListener(onOrderStateChange);
+        order.setState(Order.State.FINISHED);
+
+        Mockito.verify(onOrderStateChange).onOrderStateChange(order);
+    }
+
+    @Test
+    public void UpdateCommandShouldUpdateHistory() {
+        OrderSystem.OnSystemOrderChange onSystemOrderChange = Mockito.mock(OrderSystem.OnSystemOrderChange.class);
+        orderSystem.addOnOnSystemOrderChangeListener(onSystemOrderChange);
+
+        Order order = new Order();
+        orderSystem.addOrder(order);
+        order.setState(Order.State.FINISHED);
+
+        Mockito.verify(onSystemOrderChange).onOrderChange(order);
     }
 
 }
