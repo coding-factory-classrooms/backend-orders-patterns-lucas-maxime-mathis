@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Command {
+public class Order {
     public enum State{
         NEW,
         IN_PROGRESS,

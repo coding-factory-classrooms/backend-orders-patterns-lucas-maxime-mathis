@@ -1,45 +1,46 @@
 package org.example.controllers;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.example.core.Template;
 import org.example.models.Order;
 import org.example.models.OrderSystem;
 import spark.Request;
 import spark.Response;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static java.lang.Integer.parseInt;
 
-public class CommandController {
-    private final OrderSystem commandSystem;
+public class OrderController {
+    private final OrderSystem orderSystem;
 
-    public CommandController(OrderSystem commandSystem) {
-        this.commandSystem = commandSystem;
+    public OrderController(OrderSystem orderSystem) {
+        this.orderSystem = orderSystem;
     }
 
     public String detail(Request request, Response response){
         int id = Integer.parseInt(request.params("id"));
         Map<String, Object> model = new HashMap<>();
 
-        Optional<Order> optionalCommand = commandSystem.getCommandById(id);
+        Optional<Order> optionalOrder = orderSystem.getOrderById(id);
 
-        if(optionalCommand.isEmpty()){
+        if(optionalOrder.isEmpty()){
             response.redirect("/");
         }else{
-            Order command = optionalCommand.get();
-            model.put("command", command);
+            Order order = optionalOrder.get();
+            model.put("order", order);
         }
 
         return Template.render("order_team.html", model);
     }
 
-    public String changeCommandState(Request request, Response response) {
+    public String changeOrderState(Request request, Response response) {
 
         int index = request.body().indexOf("=") + 1;
         String newState = request.body().substring(index);
-        int commandId = Integer.parseInt(request.params("id"));
+        int orderId = Integer.parseInt(request.params("id"));
         Map<String, Object> model = new HashMap<>();
         Order.State state = null;
 
@@ -60,31 +61,56 @@ public class CommandController {
                 break;
         }
 
-        Optional<Order> optionalCommand = commandSystem.getCommandById(commandId);
+        Optional<Order> optionalOrder = orderSystem.getOrderById(orderId);
 
-        if(optionalCommand.isEmpty()){
+        if(optionalOrder.isEmpty()){
             response.redirect("/");
         }else{
-            Order command = optionalCommand.get();
-            command.setState(state);
+            Order order = optionalOrder.get();
+            order.setState(state);
 
-            model.put("command", command);
-            model.put("id", commandId);
+            model.put("order", order);
+            model.put("id", orderId);
         }
 
         return Template.render("order_team.html", model);
     }
 
-    public String infoCommand(Request request, Response response){
+    public String infoOrder(Request request, Response response){
         Map<String,Object> model = new HashMap<>();
         int id = parseInt(request.params("id"));
 
-        Optional<Order> command = commandSystem.getCommandById(id);
-        command.ifPresentOrElse(
-                value -> model.put("command", value),
+        Optional<Order> order = orderSystem.getOrderById(id);
+        order.ifPresentOrElse(
+                value -> model.put("order", value),
                 () -> response.redirect("/")
         );
 
         return Template.render("order_customer.html", model);
+    }
+
+    public String addOrder(Request request, Response response){
+        return Template.render("new_order.html", new HashMap<>());
+    }
+
+    public String placeOrder(Request request, Response response) {
+        String json = request.body();
+        JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+        JsonArray arr = jsonObject.getAsJsonArray("organs");
+
+        List<String> organs = new ArrayList<>();
+        List<String> condictions = new ArrayList<>();
+
+        for (int i = 0; i < arr.size(); i++) {
+            String organ = arr.get(i).getAsJsonObject().get("organ").getAsString();
+            String condition = arr.get(i).getAsJsonObject().get("condition").getAsString();
+            organs.add(organ);
+            condictions.add(condition);
+        }
+        System.out.println("Tableau organs :" + organs);
+        System.out.println("Tableau conditions :" + condictions);
+        //TODO il faut mettre le
+        return "haha yes";
+        //return Template.render("info_order.html", new HashMap<>());
     }
 }

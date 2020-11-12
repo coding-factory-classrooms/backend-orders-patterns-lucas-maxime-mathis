@@ -16,17 +16,17 @@ public class OrderSystemTest {
     }
 
     @Test
-    public void addCommandSuccess(){
-        orderSystem.addCommand(new Order());
+    public void addOrderSuccess(){
+        orderSystem.addOrder(new Order());
         Assert.assertEquals(1, orderSystem.getOrders().size());
     }
 
     @Test
-    public void addCommandNotNewFail(){
-        Order command = new Order();
-        command.setState(Order.State.CANCELED);
+    public void addOrderNotNewFail(){
+        Order order = new Order();
+        order.setState(Order.State.CANCELED);
 
-        orderSystem.addCommand(command);
+        orderSystem.addOrder(order);
         Assert.assertEquals(0, orderSystem.getOrders().size());
     }
 }

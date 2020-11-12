@@ -13,23 +13,25 @@ public class App {
         initialize();
 
         LogSystem log = new LogSystem();
-        OrderSystem commandSystem = new OrderSystem(log);
+        OrderSystem orderSystem = new OrderSystem(log);
 
-        Order command = new Order();
+        Order order = new Order();
         Lung lung = new Lung();
-        command.addOrgan(lung);
+        order.addOrgan(lung);
         Foot foot = new Foot();
-        command.addOrgan(foot);
-        commandSystem.addCommand(command);
+        order.addOrgan(foot);
+        orderSystem.addOrder(order);
 
-        DashboardController dashboardController = new DashboardController(commandSystem);
-        OrderController commandController = new OrderController(commandSystem);
+        DashboardController dashboardController = new DashboardController(orderSystem);
+        OrderController orderController = new OrderController(orderSystem);
 
         Spark.get("/", dashboardController::detail);
-        Spark.get("/commands/:id/info", commandController::infoCommand);
+        Spark.get("/orders/:id/info", orderController::infoOrder);
 
-        Spark.get("/commands/:id", commandController::detail);
-        Spark.post("/commands/:id", commandController::changeCommandState);
+        Spark.get("/orders/:id", orderController::detail);
+        Spark.post("/orders/:id", orderController::changeOrderState);
+        Spark.get("/new_order", orderController::addOrder);
+        Spark.post("/placeOrder", orderController::placeOrder);
     }
 
     static void initialize() {

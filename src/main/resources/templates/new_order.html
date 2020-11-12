@@ -1,0 +1,70 @@
+#parse("base.html")
+#@mainLayout()
+<style>
+#list-creation-items > div{
+    border: solid;
+    padding: 14px;
+}
+</style>
+<h1>Create new order</h1>
+<p>Ordre your brand new organ today !</p>
+
+<div id="list-creation-items">
+    <div id="item-1">
+        <p>Organ :</p>
+        <select id="organlist-1">
+            <option value="none">--Please choose an option--</option>
+            <option value="Lungs">Lungs</option>
+            <option value="Foot">Foot</option>
+        </select><br>
+
+        <p>Condition :</p>
+        <select id="condition-1">
+            <option value="none">--Please choose an option--</option>
+            <option value="BRAND_NEW">Brand New</option>
+            <option value="GOOD">Good</option>
+            <option value="CORRECT">Correct</option>
+            <option value="UNHEALTHY">Unhealthy</option>
+        </select><br>
+    </div>
+</div>
+<button onclick="addNewItem()">Add new item</button>
+
+
+<button onclick="sendData()">checkout</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script>
+
+    let cart = {
+        organs : []
+    }
+
+    function getData(){
+        $('#list-creation-items').children('div').each(function () {
+            let splitId = ($(this).attr('id')).split('-');
+            let id = splitId[1];
+
+            let organ = $( "#organlist-"+id ).val();
+            let condition = $( "#condition-"+id ).val();
+            cart.organs.push({organ : organ, condition: condition});
+        });
+        return cart;
+    }
+
+    function addNewItem() {
+        let id = ($("#list-creation-items > div").length) + 1;
+        let blockToAppend = '<div id="item-'+id+'"> <p>Organ :</p> <select id="organlist-'+id+'"> <option value="none">--Please choose an option--</option> <option value="Lungs">Lungs</option> <option value="Foot">Foot</option> </select><br> <p>Condition :</p> <select id="condition-'+id+'"> <option value="none">--Please choose an option--</option> <option value="BRAND_NEW">Brand New</option> <option value="GOOD">Good</option> <option value="CORRECT">Correct</option> <option value="UNHEALTHY">Unhealthy</option> </select><br> </div>';
+        $("#list-creation-items").append(blockToAppend);
+    }
+
+    function sendData() {
+        let dataToSend = JSON.stringify(getData());
+        $.post('/placeOrder',
+            dataToSend,
+            function(data) {
+                alert(data);
+            });
+    }
+
+</script>
+#end

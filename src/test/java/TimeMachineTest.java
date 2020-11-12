@@ -52,7 +52,7 @@ public class TimeMachineTest {
 
         Order order = new Order();
         order.addOrgan(new Foot());
-        orderSystem.addCommand(order);
+        orderSystem.addOrder(order);
 
         timeMachine.makeBackup();
         Assert.assertTrue(timeMachine.undo());

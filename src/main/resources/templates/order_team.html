@@ -1,6 +1,6 @@
 #parse("base.html")
 #@mainLayout()
-<h1>Order #$command.getId() Team</h1>
+<h1>Order #$order.getId() Team</h1>
 <table>
     <thead>
         <tr>
@@ -11,9 +11,9 @@
     </thead>
     <tbody>
         <tr>
-            <td>$command.getId()</td>
-            <td>$command.getState()</td>
-            <td>$command.getCreateTime()</td>
+            <td>$order.getId()</td>
+            <td>$order.getState()</td>
+            <td>$order.getCreateTime()</td>
         </tr>
     </tbody>
 </table>

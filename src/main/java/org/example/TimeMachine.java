@@ -20,7 +20,7 @@ public class TimeMachine {
             return false;
         }
         snapshots.forEach(snapshot -> {
-            System.out.println(snapshot + "size : "+snapshot.getCommands().size());
+            System.out.println(snapshot + "size : "+snapshot.getOrders().size());
         });
         orderSystem.restore(snapshots.get(--index));
         return true;
@@ -28,7 +28,7 @@ public class TimeMachine {
 
     public void makeBackup(){
         OrderSystemSnapshot snapshot = orderSystem.createSnapshot();
-        System.out.println(snapshot.getCommands().size());
+        System.out.println(snapshot.getOrders().size());
         snapshots.add(snapshot);
         index++;
     }

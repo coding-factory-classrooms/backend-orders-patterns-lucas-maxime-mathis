@@ -1,10 +1,10 @@
 #parse("base.html")
 #@mainLayout()
-<h1>Order #$command.getId() Customer</h1>
+<h1>Order #$order.getId() Customer</h1>
 <h2>Status</h2>
-<p>State : $command.getState()</p>
-<p>Creation date : $command.getCreateTime()</p>
-<p>Last modification : $command.getLastModification()</p>
+<p>State : $order.getState()</p>
+<p>Creation date : $order.getCreateTime()</p>
+<p>Last modification : $order.getLastModification()</p>
 <h2>Detail</h2>
 <table>
     <thead>
@@ -17,7 +17,7 @@
     </tr>
     </thead>
     <tbody>
-    #foreach ($organ in $command.getOrgans())
+    #foreach ($organ in $order.getOrgans())
     <tr>
         <td>$velocityCount</td>
         <td>$organ.getName()</td>
