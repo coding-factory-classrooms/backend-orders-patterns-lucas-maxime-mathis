@@ -1,24 +1,21 @@
 package org.example.controllers;
 
 import org.example.core.Template;
-import org.example.models.Command;
-import org.example.models.CommandSystem;
+import org.example.models.Order;
+import org.example.models.OrderSystem;
 import spark.Request;
 import spark.Response;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.List;
-import java.util.Map;
 
 import static java.lang.Integer.parseInt;
 
 public class CommandController {
-    private final CommandSystem commandSystem;
+    private final OrderSystem commandSystem;
 
-    public CommandController(CommandSystem commandSystem) {
+    public CommandController(OrderSystem commandSystem) {
         this.commandSystem = commandSystem;
     }
 
@@ -26,12 +23,12 @@ public class CommandController {
         int id = Integer.parseInt(request.params("id"));
         Map<String, Object> model = new HashMap<>();
 
-        Optional<Command> optionalCommand = commandSystem.getCommandById(id);
+        Optional<Order> optionalCommand = commandSystem.getCommandById(id);
 
         if(optionalCommand.isEmpty()){
             response.redirect("/");
         }else{
-            Command command = optionalCommand.get();
+            Order command = optionalCommand.get();
             model.put("command", command);
         }
 
@@ -44,31 +41,31 @@ public class CommandController {
         String newState = request.body().substring(index);
         int commandId = Integer.parseInt(request.params("id"));
         Map<String, Object> model = new HashMap<>();
-        Command.State state = null;
+        Order.State state = null;
 
         switch (newState) {
             case "new":
-                state = Command.State.NEW;
+                state = Order.State.NEW;
                 break;
             case "in_progress":
-                state = Command.State.IN_PROGRESS;
+                state = Order.State.IN_PROGRESS;
                 break;
             case "finished":
-                state = Command.State.FINISHED;
+                state = Order.State.FINISHED;
                 break;
             case "canceled":
-                state = Command.State.CANCELED;
+                state = Order.State.CANCELED;
                 break;
             default:
                 break;
         }
 
-        Optional<Command> optionalCommand = commandSystem.getCommandById(commandId);
+        Optional<Order> optionalCommand = commandSystem.getCommandById(commandId);
 
         if(optionalCommand.isEmpty()){
             response.redirect("/");
         }else{
-            Command command = optionalCommand.get();
+            Order command = optionalCommand.get();
             command.setState(state);
 
             model.put("command", command);
@@ -82,7 +79,7 @@ public class CommandController {
         Map<String,Object> model = new HashMap<>();
         int id = parseInt(request.params("id"));
 
-        Optional<Command> command = commandSystem.getCommandById(id);
+        Optional<Order> command = commandSystem.getCommandById(id);
         command.ifPresentOrElse(
                 value -> model.put("command", value),
                 () -> response.redirect("/")

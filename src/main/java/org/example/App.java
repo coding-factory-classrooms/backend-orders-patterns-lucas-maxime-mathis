@@ -1,6 +1,6 @@
 package org.example;
 
-import org.example.controllers.CommandController;
+import org.example.controllers.OrderController;
 import org.example.controllers.DashboardController;
 import org.example.core.Conf;
 import org.example.core.Template;
@@ -13,9 +13,9 @@ public class App {
         initialize();
 
         LogSystem log = new LogSystem();
-        CommandSystem commandSystem = new CommandSystem(log);
+        OrderSystem commandSystem = new OrderSystem(log);
 
-        Command command = new Command();
+        Order command = new Order();
         Lung lung = new Lung();
         command.addOrgan(lung);
         Foot foot = new Foot();
@@ -23,7 +23,7 @@ public class App {
         commandSystem.addCommand(command);
 
         DashboardController dashboardController = new DashboardController(commandSystem);
-        CommandController commandController = new CommandController(commandSystem);
+        OrderController commandController = new OrderController(commandSystem);
 
         Spark.get("/", dashboardController::detail);
         Spark.get("/commands/:id/info", commandController::infoCommand);

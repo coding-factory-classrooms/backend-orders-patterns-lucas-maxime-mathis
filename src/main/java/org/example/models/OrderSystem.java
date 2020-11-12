@@ -36,7 +36,13 @@ public class CommandSystem {
         return true;
     }
 
-    private int getNextId(){
-        return commands.size() + 1;
+    private int getNextId(){ return commands.size() + 1; }
+
+    public OrderSystemSnapshot createSnapshot(){
+        return new OrderSystemSnapshot(commands);
+    }
+
+    public void restore(OrderSystemSnapshot snapshot){
+        commands = snapshot.getCommands();
     }
 }
