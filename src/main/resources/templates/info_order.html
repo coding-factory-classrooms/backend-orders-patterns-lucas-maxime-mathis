@@ -1,0 +1,31 @@
+#parse("base.html")
+#@mainLayout()
+<h1>Command</h1>
+<table>
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>State</td>
+            <td>CreatedTime</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>$id</td>
+            <td>$command.getState()</td>
+            <td>$command.getCreateTime()</td>
+        </tr>
+    </tbody>
+</table>
+
+<form method="POST" >
+    <select name="state">
+        <option value="">-- CHANGE STATE --</option>
+        <option value="new">NEW</option>
+        <option value="in_progress">IN PROGRESS</option>
+        <option value="finished">FINISHED</option>
+        <option value="canceled">CANCELED</option>
+    </select>
+    <input type="submit">
+</form>
+#end
