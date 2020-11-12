@@ -27,8 +27,6 @@ public class OrderSystem implements Order.OnOrderStateChange {
     public Optional<Order> getOrderById(int id) {
         return orders.stream()
                 .filter(order -> order.getId() == id)
-        return orders.stream()
-                .filter(command -> command.getId() == id)
                 .findFirst();
     }
 
