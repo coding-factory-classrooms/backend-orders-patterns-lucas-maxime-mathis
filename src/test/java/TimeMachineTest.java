@@ -62,13 +62,14 @@ public class TimeMachineTest {
 
     @Test
     public void RedoSuccess(){
+        timeMachine.makeBackup();
+
         Order order = new Order();
         order.addOrgan(new Foot());
         orderSystem.addOrder(order);
 
-        order.setState(Order.State.CANCELED);
-
         Assert.assertTrue(timeMachine.undo());
+
         Assert.assertEquals(2, timeMachine.getSnapshots().size());
         Assert.assertEquals(0, timeMachine.getIndex());
         Assert.assertTrue(timeMachine.redo());
@@ -86,9 +87,25 @@ public class TimeMachineTest {
         Assert.assertFalse(timeMachine.redo());
     }
 
+
+    @Test
+    public void RedoIfEmptyFail(){
+        Assert.assertFalse(timeMachine.redo());
+    }
+
     @Test
     public void UndoIfNoBackUpFail(){
         Assert.assertFalse(timeMachine.undo());
+    }
+
+    @Test
+    public void historyChangeAfterOrderAddSuccess(){
+        Assert.assertEquals(0,timeMachine.getSnapshots().size());
+        Order order = new Order();
+        orderSystem.addOrder(order);
+        Assert.assertEquals(1,timeMachine.getSnapshots().size());
+        orderSystem.addOrder(order);
+        Assert.assertEquals(2,timeMachine.getSnapshots().size());
     }
 
 }
