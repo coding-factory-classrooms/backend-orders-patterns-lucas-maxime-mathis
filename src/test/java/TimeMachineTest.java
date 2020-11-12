@@ -60,4 +60,20 @@ public class TimeMachineTest {
         Assert.assertEquals(0, orderSystem.getOrders().size());
     }
 
+    @Test
+    public void RedoSuccess(){
+        timeMachine.makeBackup();
+
+        Order order = new Order();
+        order.addOrgan(new Foot());
+        orderSystem.addCommand(order);
+
+        timeMachine.makeBackup();
+        Assert.assertTrue(timeMachine.undo());
+        Assert.assertEquals(0, orderSystem.getOrders().size());
+        Assert.assertTrue(timeMachine.redo());
+
+        Assert.assertEquals(1, orderSystem.getOrders().size());
+    }
+
 }

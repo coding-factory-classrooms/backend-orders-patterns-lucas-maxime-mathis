@@ -19,16 +19,20 @@ public class TimeMachine {
         if(index <= 0){
             return false;
         }
-        snapshots.forEach(snapshot -> {
-            System.out.println(snapshot + "size : "+snapshot.getOrders().size());
-        });
         orderSystem.restore(snapshots.get(--index));
+        return true;
+    }
+
+    public boolean redo(){
+        if(index + 1 > snapshots.size()){
+            return false;
+        }
+        orderSystem.restore(snapshots.get(++index));
         return true;
     }
 
     public void makeBackup(){
         OrderSystemSnapshot snapshot = orderSystem.createSnapshot();
-        System.out.println(snapshot.getOrders().size());
         snapshots.add(snapshot);
         index++;
     }

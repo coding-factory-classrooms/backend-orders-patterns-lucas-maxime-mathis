@@ -41,4 +41,16 @@ public class Order {
         this.id = id;
     }
 
+    // SAVE SYSTEM
+    public OrderSnapshot createSnapshot(){
+        return new OrderSnapshot(organs,state,createTime,lastModification,id);
+    }
+    public void restore(OrderSnapshot snapshot){
+        id = snapshot.getId();
+        organs = snapshot.getOrgans();
+        createTime = snapshot.getCreateTime();
+        lastModification = snapshot.getLastModification();
+        state = snapshot.getState();
+    }
+
 }
