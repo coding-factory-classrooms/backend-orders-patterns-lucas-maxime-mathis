@@ -5,17 +5,15 @@ import org.example.controllers.DashboardController;
 import org.example.core.Conf;
 import org.example.core.Template;
 import org.example.middlewares.LoggerMiddleware;
-import org.example.models.Command;
-import org.example.models.CommandSystem;
-import org.example.models.Foot;
-import org.example.models.Lung;
+import org.example.models.*;
 import spark.Spark;
 
 public class App {
     public static void main(String[] args) {
         initialize();
 
-        CommandSystem commandSystem = new CommandSystem();
+        LogSystem log = new LogSystem();
+        CommandSystem commandSystem = new CommandSystem(log);
 
         Command command = new Command();
         Lung lung = new Lung();

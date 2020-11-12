@@ -10,7 +10,7 @@ public class CommandSystemTest {
 
     @Before
     public void before() {
-        commandSystem = new CommandSystem();
+        commandSystem = new CommandSystem(log);
     }
 
     @Test

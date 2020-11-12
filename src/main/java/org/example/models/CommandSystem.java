@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.stream.Collectors.toList;
-
 public class CommandSystem {
 
     // ATTRIBUTES
     private List<Command> commands = new ArrayList<>();
+    private final LogSystem log;
+
+    public CommandSystem(LogSystem log) {
+        this.log = log;
+    }
 
     // GETTER
     public List<Command> getCommands() {
@@ -22,12 +25,15 @@ public class CommandSystem {
     }
 
     // SETTER
-    public void addCommand(Command command) {
+    public boolean addCommand(Command command) {
         if(command.getState() != Command.State.NEW){
-            return;
+            return false;
         }
         command.setId(getNextId());
         this.commands.add(command);
+        String message = "Added new order id : "+ command.getId();
+        log.addLog(message);
+        return true;
     }
 
     private int getNextId(){
