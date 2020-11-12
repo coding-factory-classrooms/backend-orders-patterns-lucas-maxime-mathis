@@ -4,45 +4,49 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class CommandSystem {
+public class OrderSystem {
 
     // ATTRIBUTES
-    private List<Command> commands = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();
     private final LogSystem log;
 
-    public CommandSystem(LogSystem log) {
+    public OrderSystem(LogSystem log) {
         this.log = log;
     }
 
     // GETTER
-    public List<Command> getCommands() {
-        return commands;
+    public List<Order> getOrders() {
+        return orders;
     }
-    public Optional<Command> getCommandById(int id) {
-        return commands.stream()
+    public Optional<Order> getCommandById(int id) {
+        return orders.stream()
                 .filter(command -> command.getId() == id)
                 .findFirst();
     }
 
     // SETTER
-    public boolean addCommand(Command command) {
-        if(command.getState() != Command.State.NEW){
+    public boolean addCommand(Order command) {
+        if(command.getState() != Order.State.NEW){
             return false;
         }
         command.setId(getNextId());
-        this.commands.add(command);
+        this.orders.add(command);
         String message = "Added new order id : "+ command.getId();
         log.addLog(message);
         return true;
     }
 
-    private int getNextId(){ return commands.size() + 1; }
+    private int getNextId(){ return orders.size() + 1; }
 
+    // SAVE SYSTEM
     public OrderSystemSnapshot createSnapshot(){
-        return new OrderSystemSnapshot(commands);
+        String message = "Create Snapshot";
+        log.addLog(message);
+        return new OrderSystemSnapshot(orders);
     }
-
     public void restore(OrderSystemSnapshot snapshot){
-        commands = snapshot.getCommands();
+        orders = snapshot.getOrders();
+        String message = "Restore";
+        log.addLog(message);
     }
 }

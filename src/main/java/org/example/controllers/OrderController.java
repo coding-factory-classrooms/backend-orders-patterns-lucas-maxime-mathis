@@ -12,18 +12,18 @@ import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
 
-public class CommandController {
-    private final OrderSystem commandSystem;
+public class OrderController {
+    private final OrderSystem orderSystem;
 
-    public CommandController(OrderSystem commandSystem) {
-        this.commandSystem = commandSystem;
+    public OrderController(OrderSystem commandSystem) {
+        this.orderSystem = commandSystem;
     }
 
     public String detail(Request request, Response response){
         int id = Integer.parseInt(request.params("id"));
         Map<String, Object> model = new HashMap<>();
 
-        Optional<Order> optionalCommand = commandSystem.getCommandById(id);
+        Optional<Order> optionalCommand = orderSystem.getCommandById(id);
 
         if(optionalCommand.isEmpty()){
             response.redirect("/");
@@ -60,7 +60,7 @@ public class CommandController {
                 break;
         }
 
-        Optional<Order> optionalCommand = commandSystem.getCommandById(commandId);
+        Optional<Order> optionalCommand = orderSystem.getCommandById(commandId);
 
         if(optionalCommand.isEmpty()){
             response.redirect("/");
@@ -79,7 +79,7 @@ public class CommandController {
         Map<String,Object> model = new HashMap<>();
         int id = parseInt(request.params("id"));
 
-        Optional<Order> command = commandSystem.getCommandById(id);
+        Optional<Order> command = orderSystem.getCommandById(id);
         command.ifPresentOrElse(
                 value -> model.put("command", value),
                 () -> response.redirect("/")

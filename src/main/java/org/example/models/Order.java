@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Command {
+public class Order {
     public enum State{
         NEW,
         IN_PROGRESS,
@@ -39,6 +39,18 @@ public class Command {
     public void setId(int id) {
         lastModification = LocalDateTime.now();
         this.id = id;
+    }
+
+    // SAVE SYSTEM
+    public OrderSnapshot createSnapshot(){
+        return new OrderSnapshot(organs,state,createTime,lastModification,id);
+    }
+    public void restore(OrderSnapshot snapshot){
+        id = snapshot.getId();
+        organs = snapshot.getOrgans();
+        createTime = snapshot.getCreateTime();
+        lastModification = snapshot.getLastModification();
+        state = snapshot.getState();
     }
 
 }
