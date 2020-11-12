@@ -13,7 +13,9 @@
     <tbody>
     #foreach ($command in $commands)
     <tr>
-        <td>$command.getId()</td>
+        <td>
+            <a href="commands/$command.getId()/info">$command.getId()</a>
+        </td>
         <td>$command.getState()</td>
         <td>$command.getCreateTime()</td>
         <td>$command.getOrgans().size()</td>

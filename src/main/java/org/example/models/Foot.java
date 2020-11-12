@@ -7,8 +7,8 @@ public class Foot extends Organ {
     }
 
     // ATTRIBUTES
-    private float size;
-    private Type type;
+    private float size = 0;
+    private Type type = Type.LEFT;
 
     // GETTER
     @Override

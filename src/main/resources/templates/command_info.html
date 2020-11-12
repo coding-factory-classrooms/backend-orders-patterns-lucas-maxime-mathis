@@ -1,4 +1,31 @@
 #parse("base.html")
 #@mainLayout()
-<h1>Command info</h1>
+<h1>Command $command.getId() info</h1>
+<h2>Status</h2>
+<p>State : $command.getState()</p>
+<p>Creation date : $command.getCreateTime()</p>
+<p>Last modification : $command.getLastModification()</p>
+<h2>Detail</h2>
+<table>
+    <thead>
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+        <td>Condition</td>
+        <td>Category</td>
+        <td>Description</td>
+    </tr>
+    </thead>
+    <tbody>
+    #foreach ($organ in $command.getOrgans())
+    <tr>
+        <td>$velocityCount</td>
+        <td>$organ.getName()</td>
+        <td>$organ.getCondition()</td>
+        <td>$organ.getCategory()</td>
+        <td>$organ.getDescription()</td>
+    </tr>
+    </tbody>
+    #end
+</table>
 #end

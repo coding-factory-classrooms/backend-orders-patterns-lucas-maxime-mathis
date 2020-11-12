@@ -15,7 +15,7 @@ public class CommandSystem {
     public List<Command> getCommands() {
         return commands;
     }
-    public Optional<Command> getCommandsById(int id) {
+    public Optional<Command> getCommandById(int id) {
         return commands.stream()
                 .filter(command -> command.getId() == id)
                 .findFirst();
