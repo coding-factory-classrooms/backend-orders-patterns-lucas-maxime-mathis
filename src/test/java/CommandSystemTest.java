@@ -15,13 +15,13 @@ public class CommandSystemTest {
 
     @Test
     public void addCommandSuccess(){
-        commandSystem.addCommand(new Command());
+        commandSystem.addCommand(new Command(id));
         Assert.assertEquals(1,commandSystem.getCommands().size());
     }
 
     @Test
     public void addCommandNotNewFail(){
-        Command command = new Command();
+        Command command = new Command(id);
         command.setState(Command.State.CANCELED);
 
         commandSystem.addCommand(command);

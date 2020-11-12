@@ -7,9 +7,9 @@ import org.example.core.Template;
 import org.example.middlewares.LoggerMiddleware;
 import org.example.models.Command;
 import org.example.models.CommandSystem;
+import org.example.models.Foot;
+import org.example.models.Lung;
 import spark.Spark;
-
-import java.util.HashMap;
 
 public class App {
     public static void main(String[] args) {
@@ -17,14 +17,19 @@ public class App {
 
         CommandSystem commandSystem = new CommandSystem();
 
-        commandSystem.addCommand(new Command());
+        Command command = new Command();
+        Lung lung = new Lung();
+        command.addOrgan(lung);
+        Foot foot = new Foot();
+        command.addOrgan(foot);
+        commandSystem.addCommand(command);
 
         DashboardController dashboardController = new DashboardController(commandSystem);
         CommandController commandController = new CommandController(commandSystem);
 
         Spark.get("/", dashboardController::detail);
         Spark.get("/commands/:id", commandController::detail);
-
+        Spark.get("/commands/:id/info", commandController::infoCommand);
         Spark.post("/commands/:id", commandController::changeCommandState);
     }
 
