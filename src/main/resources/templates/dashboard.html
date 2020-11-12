@@ -28,5 +28,30 @@
     </tbody>
     #end
 </table>
+<a href="?action=undo">Undo</a>
+<a href="?action=redo">Redo</a>
 <h2>History</h2>
+<table>
+    <thead>
+    <tr>
+        <td>Id</td>
+        <td>CreateTime</td>
+        <td>Info</td>
+    </tr>
+    </thead>
+    <tbody>
+    #foreach ($snapshot in $history)
+        <tr>
+            <td>$velocityCount</td>
+            <td>$snapshot.getCreateTime()</td>
+            <td>
+                #foreach ($order in $snapshot.getOrders())
+                    $order.toJson()
+                #end
+            </td>
+        </tr>
+        </tbody>
+    #end
+</table>
+
 #end

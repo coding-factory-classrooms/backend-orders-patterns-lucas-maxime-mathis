@@ -1,34 +1,42 @@
 package org.example;
 
+import org.example.models.Order;
 import org.example.models.OrderSystem;
 import org.example.models.OrderSystemSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TimeMachine {
+public class TimeMachine implements OrderSystem.OnSystemOrderChange {
     private List<OrderSystemSnapshot> snapshots = new ArrayList<>();
     private final OrderSystem orderSystem;
     private int index = -1;
 
     public TimeMachine(OrderSystem orderSystem) {
         this.orderSystem = orderSystem;
+        this.orderSystem.addOnOnSystemOrderChangeListener(this);
     }
 
     public boolean undo(){
         if(index <= 0){
             return false;
         }
-        snapshots.forEach(snapshot -> {
-            System.out.println(snapshot + "size : "+snapshot.getOrders().size());
-        });
-        orderSystem.restore(snapshots.get(--index));
+        index -= 1;
+        orderSystem.restore(snapshots.get(index));
+        return true;
+    }
+
+    public boolean redo(){
+        if(index + 1 >= snapshots.size()){
+            return false;
+        }
+        index += 1;
+        orderSystem.restore(snapshots.get(index));
         return true;
     }
 
     public void makeBackup(){
         OrderSystemSnapshot snapshot = orderSystem.createSnapshot();
-        System.out.println(snapshot.getOrders().size());
         snapshots.add(snapshot);
         index++;
     }
@@ -39,5 +47,15 @@ public class TimeMachine {
 
     public int getIndex() {
         return index;
+    }
+
+    @Override
+    public void onAddOrder(Order order) {
+        makeBackup();
+    }
+
+    @Override
+    public void onOrderChange(Order order) {
+        makeBackup();
     }
 }

@@ -14,6 +14,7 @@ public class App {
 
         LogSystem log = new LogSystem();
         OrderSystem orderSystem = new OrderSystem(log);
+        TimeMachine timeMachine = new TimeMachine(orderSystem);
 
         Order order = new Order();
         Lung lung = new Lung();
@@ -22,7 +23,14 @@ public class App {
         order.addOrgan(foot);
         orderSystem.addOrder(order);
 
-        DashboardController dashboardController = new DashboardController(orderSystem);
+        order = new Order();
+        lung = new Lung();
+        order.addOrgan(lung);
+        foot = new Foot();
+        order.addOrgan(foot);
+        orderSystem.addOrder(order);
+
+        DashboardController dashboardController = new DashboardController(orderSystem,timeMachine);
         OrderController orderController = new OrderController(orderSystem);
 
         Spark.get("/", dashboardController::detail);
