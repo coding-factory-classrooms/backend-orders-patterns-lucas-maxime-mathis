@@ -1,6 +1,7 @@
 #parse("base.html")
 #@mainLayout()
 <h1>Dashboard</h1>
+<h2>Orders</h2>
 <table>
     <thead>
     <tr>
@@ -8,6 +9,7 @@
         <td>State</td>
         <td>createTime</td>
         <td>Organs</td>
+        <td>Action</td>
     </tr>
     </thead>
     <tbody>
@@ -19,8 +21,12 @@
         <td>$command.getState()</td>
         <td>$command.getCreateTime()</td>
         <td>$command.getOrgans().size()</td>
+        <td>
+            <a href="commands/$command.getId()">Edit</a>
+        </td>
     </tr>
     </tbody>
     #end
 </table>
+<h2>History</h2>
 #end

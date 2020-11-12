@@ -23,24 +23,27 @@ public class CommandController {
     }
 
     public String detail(Request request, Response response){
-
-        List<Command> commandList = commandSystem.getCommands();
-        int index = Integer.parseInt(request.params("id")) - 1;
-        Command command = commandList.get(index);
-
+        int id = Integer.parseInt(request.params("id"));
         Map<String, Object> model = new HashMap<>();
-        model.put("command", command);
-        model.put("id", index);
 
-        return Template.render("info_order.html", model);
+        Optional<Command> optionalCommand = commandSystem.getCommandById(id);
+
+        if(optionalCommand.isEmpty()){
+            response.redirect("/");
+        }else{
+            Command command = optionalCommand.get();
+            model.put("command", command);
+        }
+
+        return Template.render("order_team.html", model);
     }
 
     public String changeCommandState(Request request, Response response) {
-        List<Command> commandList = commandSystem.getCommands();
 
-        Integer index = request.body().indexOf("=") + 1;
+        int index = request.body().indexOf("=") + 1;
         String newState = request.body().substring(index);
-        Integer commandId = Integer.parseInt(request.params("id")) - 1;
+        int commandId = Integer.parseInt(request.params("id"));
+        Map<String, Object> model = new HashMap<>();
         Command.State state = null;
 
         switch (newState) {
@@ -60,13 +63,19 @@ public class CommandController {
                 break;
         }
 
-        Command command = commandList.get(commandId);
-        command.setState(state);
+        Optional<Command> optionalCommand = commandSystem.getCommandById(commandId);
 
-        Map<String, Object> model = new HashMap<>();
-        model.put("command", command);
-        model.put("id", commandId);
-        return Template.render("info_order.html", model);
+        if(optionalCommand.isEmpty()){
+            response.redirect("/");
+        }else{
+            Command command = optionalCommand.get();
+            command.setState(state);
+
+            model.put("command", command);
+            model.put("id", commandId);
+        }
+
+        return Template.render("order_team.html", model);
     }
 
     public String infoCommand(Request request, Response response){
@@ -79,6 +88,6 @@ public class CommandController {
                 () -> response.redirect("/")
         );
 
-        return Template.render("command_info.html", model);
+        return Template.render("order_customer.html", model);
     }
 }

@@ -26,8 +26,9 @@ public class App {
         CommandController commandController = new CommandController(commandSystem);
 
         Spark.get("/", dashboardController::detail);
-        Spark.get("/commands/:id", commandController::detail);
         Spark.get("/commands/:id/info", commandController::infoCommand);
+
+        Spark.get("/commands/:id", commandController::detail);
         Spark.post("/commands/:id", commandController::changeCommandState);
     }
 
