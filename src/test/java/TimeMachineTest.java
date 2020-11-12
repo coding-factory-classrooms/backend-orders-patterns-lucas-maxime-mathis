@@ -62,18 +62,28 @@ public class TimeMachineTest {
 
     @Test
     public void RedoSuccess(){
-        timeMachine.makeBackup();
-
         Order order = new Order();
         order.addOrgan(new Foot());
         orderSystem.addOrder(order);
 
-        timeMachine.makeBackup();
+        order.setState(Order.State.CANCELED);
+
         Assert.assertTrue(timeMachine.undo());
-        Assert.assertEquals(0, orderSystem.getOrders().size());
+        Assert.assertEquals(2, timeMachine.getSnapshots().size());
+        Assert.assertEquals(0, timeMachine.getIndex());
         Assert.assertTrue(timeMachine.redo());
 
-        Assert.assertEquals(1, orderSystem.getOrders().size());
+        Assert.assertEquals(1, timeMachine.getIndex());
+
+    }
+
+    @Test
+    public void RedoNotInRangeFail(){
+        Order order = new Order();
+        order.addOrgan(new Foot());
+        orderSystem.addOrder(order);
+
+        Assert.assertFalse(timeMachine.redo());
     }
 
 }

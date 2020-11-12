@@ -1,10 +1,15 @@
 package org.example.models;
 
+import com.google.gson.Gson;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
+    public interface OnOrderStateChange{
+        void onOrderStateChange(Order order);
+    }
     public enum State{
         NEW,
         IN_PROGRESS,
@@ -18,6 +23,7 @@ public class Order {
     private LocalDateTime createTime = LocalDateTime.now();
     private LocalDateTime lastModification = createTime;
     private List<Organ> organs = new ArrayList<>();
+    private OnOrderStateChange onOrderStateChange;
 
 
     // GETTER
@@ -35,10 +41,18 @@ public class Order {
     public void setState(State state) {
         lastModification = LocalDateTime.now();
         this.state = state;
+
+        if(onOrderStateChange != null){
+            onOrderStateChange.onOrderStateChange(this);
+        }
     }
     public void setId(int id) {
         lastModification = LocalDateTime.now();
         this.id = id;
+    }
+
+    public void addOnOrderStateChangeListener(OnOrderStateChange listener){
+        onOrderStateChange = listener;
     }
 
     // SAVE SYSTEM
@@ -51,6 +65,11 @@ public class Order {
         createTime = snapshot.getCreateTime();
         lastModification = snapshot.getLastModification();
         state = snapshot.getState();
+    }
+
+    public String toJson(){
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 
 }
