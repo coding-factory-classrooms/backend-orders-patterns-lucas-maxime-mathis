@@ -7,8 +7,9 @@ import java.util.Optional;
 public class OrderSystem {
 
     // ATTRIBUTES
-    private List<Order> order = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();
     private final LogSystem log;
+
 
     public OrderSystem(LogSystem log) {
         this.log = log;
@@ -16,10 +17,10 @@ public class OrderSystem {
 
     // GETTER
     public List<Order> getOrders() {
-        return order;
+        return orders;
     }
     public Optional<Order> getOrderById(int id) {
-        return order.stream()
+        return orders.stream()
                 .filter(order -> order.getId() == id)
                 .findFirst();
     }
@@ -30,19 +31,19 @@ public class OrderSystem {
             return false;
         }
         order.setId(getNextId());
-        this.order.add(order);
+        this.orders.add(order);
         String message = "Added new order id : "+ order.getId();
         log.addLog(message);
         return true;
     }
 
-    private int getNextId(){ return order.size() + 1; }
+    private int getNextId(){ return orders.size() + 1; }
 
     public OrderSystemSnapshot createSnapshot(){
-        return new OrderSystemSnapshot(order);
+        return new OrderSystemSnapshot(orders);
     }
 
     public void restore(OrderSystemSnapshot snapshot){
-        order = snapshot.getOrders();
+        orders = snapshot.getOrders();
     }
 }

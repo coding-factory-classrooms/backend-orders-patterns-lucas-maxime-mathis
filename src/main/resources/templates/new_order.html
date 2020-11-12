@@ -62,7 +62,7 @@
         $.post('/placeOrder',
             dataToSend,
             function(data) {
-                alert(data);
+                location.href = '/orders/'+ data +'/info';
             });
     }
 

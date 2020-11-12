@@ -13,16 +13,16 @@
     </tr>
     </thead>
     <tbody>
-    #foreach ($command in $commands)
+    #foreach ($order in $orders)
     <tr>
         <td>
-            <a href="commands/$command.getId()/info">$command.getId()</a>
+            <a href="orders/$order.getId()/info">$order.getId()</a>
         </td>
-        <td>$command.getState()</td>
-        <td>$command.getCreateTime()</td>
-        <td>$command.getOrgans().size()</td>
+        <td>$order.getState()</td>
+        <td>$order.getCreateTime()</td>
+        <td>$order.getOrgans().size()</td>
         <td>
-            <a href="commands/$command.getId()">Edit</a>
+            <a href="orders/$order.getId()">Edit</a>
         </td>
     </tr>
     </tbody>

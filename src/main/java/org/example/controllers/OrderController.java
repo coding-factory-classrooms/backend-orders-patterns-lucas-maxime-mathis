@@ -4,8 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.example.core.Template;
-import org.example.models.Order;
-import org.example.models.OrderSystem;
+import org.example.models.*;
 import spark.Request;
 import spark.Response;
 
@@ -99,18 +98,42 @@ public class OrderController {
         JsonArray arr = jsonObject.getAsJsonArray("organs");
 
         List<String> organs = new ArrayList<>();
-        List<String> condictions = new ArrayList<>();
+        List<String> conditions = new ArrayList<>();
 
         for (int i = 0; i < arr.size(); i++) {
             String organ = arr.get(i).getAsJsonObject().get("organ").getAsString();
             String condition = arr.get(i).getAsJsonObject().get("condition").getAsString();
             organs.add(organ);
-            condictions.add(condition);
+            conditions.add(condition);
         }
         System.out.println("Tableau organs :" + organs);
-        System.out.println("Tableau conditions :" + condictions);
-        //TODO il faut mettre le
-        return "haha yes";
-        //return Template.render("info_order.html", new HashMap<>());
+        System.out.println("Tableau conditions :" + conditions);
+
+
+        Order order = new Order();
+
+        for (int i = 0; i < organs.size(); i++){
+            String organStr = organs.get(i);
+
+            if (organStr.equals("Foot")){
+                Foot foot = new Foot();
+                foot.setCondition(Organ.Condition.valueOf(conditions.get(i)));
+                order.addOrgan(foot);
+            }else if(organStr.equals("Lung")){
+                Lung lung = new Lung();
+                lung.setCondition(Organ.Condition.valueOf(conditions.get(i)));
+                order.addOrgan(lung);
+            }
+        }
+
+        orderSystem.addOrder(order);
+
+        System.out.println("LA COMMANDE :"+order);
+
+        String idRedirect = Integer.toString((orderSystem.getOrders().size()));
+
+        System.out.println("String redirect :/orders/"+idRedirect+"/info");
+
+        return idRedirect;
     }
 }
