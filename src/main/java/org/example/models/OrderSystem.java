@@ -59,6 +59,7 @@ public class OrderSystem implements Order.OnOrderStateChange {
     }
     public void restore(OrderSystemSnapshot snapshot){
         orders = snapshot.getOrders();
+        orders.forEach(order -> order.addOnOrderStateChangeListener(this));
         String message = "Restore";
         log.addLog(message);
     }

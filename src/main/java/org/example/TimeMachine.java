@@ -36,9 +36,12 @@ public class TimeMachine implements OrderSystem.OnSystemOrderChange {
     }
 
     public void makeBackup(){
+        if(index >= 0 && index < snapshots.size() - 1){
+            snapshots = snapshots.subList(0,index + 1);
+        }
         OrderSystemSnapshot snapshot = orderSystem.createSnapshot();
         snapshots.add(snapshot);
-        index++;
+        index = snapshots.size() - 1;
     }
 
     public List<OrderSystemSnapshot> getSnapshots() {
