@@ -17,20 +17,6 @@ public class App {
         TimeMachine timeMachine = new TimeMachine(orderSystem);
         timeMachine.makeBackup();
 
-        Order order = new Order();
-        Lung lung = new Lung();
-        order.addOrgan(lung);
-        Foot foot = new Foot();
-        order.addOrgan(foot);
-        orderSystem.addOrder(order);
-
-        order = new Order();
-        lung = new Lung();
-        order.addOrgan(lung);
-        foot = new Foot();
-        order.addOrgan(foot);
-        orderSystem.addOrder(order);
-
         DashboardController dashboardController = new DashboardController(orderSystem,timeMachine);
         OrderController orderController = new OrderController(orderSystem);
 
